@@ -8,11 +8,11 @@ import './Header.scss';
 const MENUS = [
   {
     name: '最新',
-    path: '/week/newest',
+    path: '#',
   },
   {
     name: '收藏',
-    path: '/week/collection',
+    path: '#',
   },
   // {
   //   name: '社区',

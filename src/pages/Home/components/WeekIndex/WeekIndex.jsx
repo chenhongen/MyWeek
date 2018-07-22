@@ -142,15 +142,6 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  software: {
-    backgroundImage: `url(${require('./images/TB1uPagpQyWBuNjy0FpXXassXXa-1446-1148.png')})`,
-    width: 1446 / 2,
-    height: 1148 / 2,
-    backgroundSize: '723px 574px',
-    position: 'absolute',
-    top: 100,
-    left: '38%',
-  },
   separator: {
     width: 1,
     height: 20,

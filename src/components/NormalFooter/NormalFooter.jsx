@@ -27,7 +27,7 @@ export default class NormalFooter extends Component {
                 <Logo isDark />
               </div>
             </Col>
-            <Col l="16" xxs="24">
+            <Col l="20" xxs="48">
               <div style={{ ...styles.nav, ...styles.pullCenter }}>
                 <a href="./" style={styles.navLink}>
                   Home
@@ -35,12 +35,15 @@ export default class NormalFooter extends Component {
                 <span href="#" onClick={() => { window.open("http://rebey.cn", "_blank");}} style={styles.navLink}>
                   Blog
                 </span>
+                <span href="#" onClick={() => { window.open("https://github.com/chenhongen/", "_blank");}} style={styles.navLink}>
+                  Github
+                </span>
                 <a href="#" style={styles.navLink}>
                   About
                 </a>
               </div>
             </Col>
-            <Col l="4" xxs="24">
+            {/* <Col l="4" xxs="24">
               <div style={styles.pullRight}>
                 <a href="#">
                   <img
@@ -57,7 +60,7 @@ export default class NormalFooter extends Component {
                   />
                 </a>
               </div>
-            </Col>
+            </Col> */}
           </Row>
           <div style={styles.line} />
           <div style={{ ...styles.copyright, ...styles.pullCenter }}>

@@ -12,30 +12,30 @@ const dataSource = () => {
     return [
       {
         id: 1,
-        username: '组织/个人',
-        title: '标题',
-        url: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
-        operation: '查看',
+        username: 'QCon',
+        title: '美团配送系统架构演进实践',
+        url: 'https://mp.weixin.qq.com/s/m7koYfAVAyvN55lQjhD4dw',
+        cover: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
         description:
-          '说明以及解决方案说明以及解决方案说明以及解决方案说明以及解决方案说明以及解决方案',
+          '如何在业务高速增长、可用性越来越高的背景下实现系统架构的快速有效升级？',
       },
       {
         id: 2,
-        username: '组织/个人',
-        title: '标题',
-        url: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
-        operation: '解决方式链接',
+        username: '人人都是产品经理',
+        title: '你看不懂的美团版图，是帝国的拼图游戏',
+        url: 'https://mp.weixin.qq.com/s/IAb1XSYr61AfIgkEYObIbg',
+        cover: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
         description:
-          '说明以及解决方案说明以及解决方案说明以及解决方案说明以及解决方案说明以及解决方案',
+          '美团现在的业务越发多元，也让人越发的看不懂了。',
       },
       {
         id: 3,
-        username: '组织/个人',
-        title: '标题',
-        url: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
-        operation: '查看',
+        username: '美团技术团队',
+        title: 'Picasso：开启大前端的未来',
+        url: 'https://mp.weixin.qq.com/s/lqyo7YzQ_DkBnA3O271rdQ',
+        cover: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
         description:
-          '说明以及解决方案说明以及解决方案说明以及解决方案说明以及解决方案说明以及解决方案',
+          'Picasso是大众点评移动研发团队自研的高性能跨平台动态化框架，经过两年多的孕育和发展，目前在美团多个事业群已经实现了大规模的应用。',
       },
     ];
   };
@@ -71,7 +71,7 @@ export default class Posts extends Component {
     }
 
     linkPost = (e) => {
-        console.log(e.target.getAttribute("data-id"));
+        window.open(e.target.getAttribute("data-url"), "_blank");
     }
 
     render() {
@@ -89,7 +89,7 @@ export default class Posts extends Component {
                             <div style={styles.imageWrap}>
                                 <img
                                 style={styles.image}
-                                src={item.url}
+                                src={item.cover}
                                 alt="username"
                                 />
                                 <br />
@@ -99,7 +99,7 @@ export default class Posts extends Component {
                             <Col
                                 xxs="24"
                                 s="18"
-                                data-id={item.id}
+                                data-url={item.url}
                                 style={{
                                     ...styles.itemBody,
                                     ...(isMobile && styles.mobileContentCenter),
@@ -114,10 +114,10 @@ export default class Posts extends Component {
                                 // }
                             >
                                 <IceLabel style={{backgroundColor: '#108ee9'}}>Java</IceLabel>
-                                <span data-id={item.id} style={styles.itemStatusText}> {item.title} </span>
+                                <span data-url={item.url} style={styles.itemStatusText}> {item.title} </span>
                             </span>
                             <div
-                                data-id={item.id}
+                                data-url={item.url}
                                 style={{
                                 ...styles.itemDescription,
                                 ...(isMobile && styles.removeContentWidth),
@@ -131,7 +131,7 @@ export default class Posts extends Component {
                                     {/* <a href={item.url} target="_blank">
                                     {item.operation}
                                     </a> */}
-                                    <Icon type="favorite" data-id={item.id} />
+                                    {/* <Icon type="favorite" data-id={item.id} /> */}
                                 </div>
                             </Col>
                         </Row>

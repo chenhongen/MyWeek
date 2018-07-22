@@ -23,7 +23,7 @@ export default class MainPost extends Component {
                 className="intro-banner-img-mask"
                 style={style.introBannerImgMaskStyles}
                 />
-                <div style={style.introBannerTopStyles}>
+                <div className="intro-banner-top">
                     <div style={style.introBannerUserStyles}>
                         <img
                         src={require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png')}
@@ -50,7 +50,7 @@ export default class MainPost extends Component {
                     className="intro-banner-subtitle"
                     style={style.introBannerSubtitleStyles}
                 >
-                    当你在公众号发现一篇好文章，会选择收藏还是分享票圈？当你在开发中遇到问题通过查询网络文章获得解决方案，会选择笔记还是收藏链接？来Week吧，发布你的干货，收藏你的所爱...
+                    每周分享一些优秀的干货、总结、文章。这周在地铁上听到美团HR姐姐在电话中提道一句：“外卖蛋糕还很大”。不仅是外卖，美团正在遍地种花。本周分享几篇最近看到的关于美团的文章。(开发中，很多功能未完善...)
                 </p>
                 </div>
             </div>
@@ -101,15 +101,6 @@ const style = {
       opacity: '.45',
       zIndex: '15',
     },
-    introBannerTopStyles: {
-        position: 'absolute',
-        top: '12px',
-        zIndex: '15',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
     introBannerUserStyles: {
         zIndex: '15',
         paddingLeft: '20px',
@@ -117,7 +108,7 @@ const style = {
         display: 'flex',
     },
     introBannerStartStyles: {
-        color: '#ff6',
+        color: '#fff',
         paddingRight: '20px',
     },
     introBannerTextStyles: {
