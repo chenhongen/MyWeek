@@ -1,202 +1,338 @@
 import React, { Component } from 'react';
-import { Button, Grid, Icon } from '@icedesign/base';
-import { enquireScreen } from 'enquire-js';
-import './Posts.scss';
+import { Grid, Icon } from '@icedesign/base';
 import IceLabel from '@icedesign/label';
-import ScrollAnim from 'rc-scroll-anim';
-import QueueAnim from 'rc-queue-anim';
+import { enquireScreen } from 'enquire-js';
+import { Loading } from '@icedesign/base';
+import ReactList from 'react-list';
+import axios from 'axios';
+import avatar from './images/TB1L6tBXQyWBuNjy0FpXXassXXa-80-80.png';
+import config from './../../../../const.js';
 
-const ScrollOverPack = ScrollAnim.OverPack;
-
-const dataSource = () => {
-    return [
-      {
-        id: 1,
-        username: 'QCon',
-        title: '美团配送系统架构演进实践',
-        url: 'https://mp.weixin.qq.com/s/m7koYfAVAyvN55lQjhD4dw',
-        cover: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
-        description:
-          '如何在业务高速增长、可用性越来越高的背景下实现系统架构的快速有效升级？',
-      },
-      {
-        id: 2,
-        username: '人人都是产品经理',
-        title: '你看不懂的美团版图，是帝国的拼图游戏',
-        url: 'https://mp.weixin.qq.com/s/IAb1XSYr61AfIgkEYObIbg',
-        cover: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
-        description:
-          '美团现在的业务越发多元，也让人越发的看不懂了。',
-      },
-      {
-        id: 3,
-        username: '美团技术团队',
-        title: 'Picasso：开启大前端的未来',
-        url: 'https://mp.weixin.qq.com/s/lqyo7YzQ_DkBnA3O271rdQ',
-        cover: require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png'),
-        description:
-          'Picasso是大众点评移动研发团队自研的高性能跨平台动态化框架，经过两年多的孕育和发展，目前在美团多个事业群已经实现了大规模的应用。',
-      },
-    ];
-  };
-  
-  const { Row, Col } = Grid;
+const data = config.TAGS;
+const { Row, Col } = Grid;
 
 export default class Posts extends Component {
-    static displayName = 'Posts';
+  static displayName = 'Posts';
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isMobile: false,
-        };
-    }
+  static defaultProps = {
+    height: '348px',
+  };
 
-    componentDidMount() {
-        this.enquireScreenRegister();
-    }
-
-    enquireScreenRegister = () => {
-        const mediaCondition = 'only screen and (max-width: 720px)';
-    
-        enquireScreen((mobile) => {
-          this.setState({
-            isMobile: mobile,
-          });
-        }, mediaCondition);
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+      total: 0,
+      isLoading: false,
+      pageSize: 4,
+      pageNo: 1,
+      isMobile: false,
     };
-    
-    startToggle = (e) => {
-        console.log(e.target.getAttribute("data-id"));
-    }
+  }
 
-    linkPost = (e) => {
-        window.open(e.target.getAttribute("data-url"), "_blank");
-    }
+  componentDidMount() {
+    this.enquireScreenRegister();
+  }
 
-    render() {
-        const data = dataSource();
-        const { isMobile } = this.state;
-        return (
-            <div className="postContainer">
-                {/* <ScrollOverPack always={false} playScale={0.5} style={styles.features}>
-                <QueueAnim key="anim" type="bottom"> */}
-                    {data.map((item, index) => {
-                    return (
-                        <div style={styles.row} key={index}>
-                        <Row wrap>
-                            <Col xxs="24" s="2">
-                            <div style={styles.imageWrap}>
-                                <img
-                                style={styles.image}
-                                src={item.cover}
-                                alt="username"
-                                />
-                                <br />
-                                <span>{item.username}</span>
-                            </div>
-                            </Col>
-                            <Col
-                                xxs="24"
-                                s="18"
-                                data-url={item.url}
-                                style={{
-                                    ...styles.itemBody,
-                                    ...(isMobile && styles.mobileContentCenter),
-                                }}
-                                onClick={this.linkPost.bind(this)}
-                            >
-                            <span
-                                // style={
-                                // item.validate
-                                //     ? styles.itemStatusSuccess
-                                //     : styles.itemStatusFail
-                                // }
-                            >
-                                <IceLabel style={{backgroundColor: '#108ee9'}}>Java</IceLabel>
-                                <span data-url={item.url} style={styles.itemStatusText}> {item.title} </span>
-                            </span>
-                            <div
-                                data-url={item.url}
-                                style={{
-                                ...styles.itemDescription,
-                                ...(isMobile && styles.removeContentWidth),
-                                }}
-                            >
-                                {item.description}
-                            </div>
-                            </Col>
-                            <Col xxs="24" s="4">
-                                <div style={styles.operationWrap} onClick={this.startToggle.bind(this)}>
-                                    {/* <a href={item.url} target="_blank">
-                                    {item.operation}
-                                    </a> */}
-                                    {/* <Icon type="favorite" data-id={item.id} /> */}
-                                </div>
-                            </Col>
-                        </Row>
-                        </div>
-                    );
-                    })}
-                  {/* </QueueAnim>
-                </ScrollOverPack> */}
+  componentWillReceiveProps(nextProps) {
+    var that = this;
+    axios.post(`/posts/list`, {
+        "criteria": {
+          "criterion": [
+            {
+              "in": true,
+              "property": "tags",
+              "value": nextProps.tag,
+            }
+          ],
+          "orCriterion": [
+            {
+              "criterion": [
+                {
+                  "like": true,
+                  "property": "description",
+                  "value": nextProps.value,
+                }
+              ]
+            } ,{
+              "criterion": [
+                {
+                  "like": true,
+                  "property": "title",
+                  "value": nextProps.value,
+                }
+              ]
+            }
+          ],
+        },
+        
+        "pageIndex": 1,
+        "pageSize": this.state.pageSize
+      })
+    .then(function (response) {
+      if(response.data.message === "SUCCESS") {
+        that.setState({
+            list: response.data.data.list,
+            total: response.data.data.total,
+            pageNo: 2,
+            isLoading: false,
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  enquireScreenRegister = () => {
+      const mediaCondition = 'only screen and (max-width: 720px)';
+
+      enquireScreen((mobile) => {
+        this.setState({
+          isMobile: mobile,
+        });
+      }, mediaCondition);
+  };
+
+  // fetchDataMethod = () => {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       resolve(dataSource);
+  //     }, 500);
+
+  //   });
+  // };
+
+  fetchData = () => {
+    if(this.state.total > 0 && this.state.total === this.state.list.length)
+      return;
+    this.setState({
+      isLoading: true,
+    });
+    var that = this;
+    // this.fetchDataMethod().then((res) => {
+    //   if (res.status === 'SUCCESS') {
+    //     this.setState((prevState) => {
+    //       return {
+    //         list: [...prevState.list, ...res.data.list],
+    //         total: res.data.total,
+    //         pageNo: prevState.pageNo + 1,
+    //         isLoading: false,
+    //       };
+    //     });
+    //   }
+    // });
+    var params = new URLSearchParams();
+    // params.append('vinCode', value);
+    axios.post(`/posts/list`, {
+        "pageIndex": this.state.pageNo,
+        "pageSize": this.state.pageSize
+      })
+    .then(function (response) {
+      if(response.data.message === "SUCCESS") {
+        that.setState((prevState) => {
+          return {
+            list: [...prevState.list, ...response.data.data.list],
+            total: response.data.data.total,
+            pageNo: prevState.pageNo + 1,
+            isLoading: false,
+          };
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  };
+
+  startToggle = (e) => {
+    console.log(e.target.getAttribute("data-id"));
+  }
+
+  linkPost = (e) => {
+      window.open(e.target.getAttribute("data-url"), "_blank");
+  }
+
+  renderItem = (index, key) => {
+    const { isMobile } = this.state;
+    const datum = this.state.list[index];
+    return datum ? (
+      // <div key={key} style={styles.listItem}>
+      //   <img src={avatar} style={styles.avatar} />
+      //   <div style={styles.info}>
+      //     <div style={styles.infoItem}>{this.state.list[index].name}</div>
+      //     <div>This is the {index + 1} row</div>
+      //   </div>
+      // </div>
+      <div style={styles.row} key={index}>
+        <Row wrap>
+            <Col xxs="24" s="2">
+            <div style={styles.imageWrap}>
+                <img
+                style={styles.image}
+                src={avatar}
+                alt="username"
+                />
+                <br />
+                <span>{datum.userName}</span>
             </div>
-        );
+            </Col>
+            <Col
+                xxs="24"
+                s="18"
+                data-url={datum.url}
+                style={{
+                    ...styles.itemBody,
+                    ...(isMobile && styles.mobileContentCenter),
+                }}
+                onClick={this.linkPost.bind(this)}
+            >
+            <span
+                // style={
+                // datum.validate
+                //     ? styles.itemStatusSuccess
+                //     : styles.itemStatusFail
+                // }
+            >
+                <IceLabel style={{backgroundColor: '#108ee9'}}>{data[datum.tags]}</IceLabel>
+                <span data-url={datum.url} style={styles.itemStatusText}> {datum.title} </span>
+            </span>
+            <div
+                data-url={datum.url}
+                style={{
+                ...styles.itemDescription,
+                ...(isMobile && styles.removeContentWidth),
+                }}
+            >
+                {datum.description}
+            </div>
+            </Col>
+            <Col xxs="24" s="4">
+                <div style={styles.operationWrap} onClick={this.startToggle.bind(this)}>
+                    {/* <a href={datum.url} target="_blank">
+                    {datum.operation}
+                    </a> */}
+                    {/* <Icon type="favorite" data-id={datum.id} /> */}
+                </div>
+            </Col>
+        </Row>
+      </div>
+    ) : (
+      ''
+    );
+  };
+
+  handleScroll = () => {
+    const lastVisibleIndex = this.refs.list.getVisibleRange()[1];
+    // 提前 5条 预加载
+    if (
+      lastVisibleIndex >= this.state.pageNo * this.state.pageSize - 5 &&
+      !this.state.isLoading
+    ) {
+      this.fetchData();
     }
+  };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  render() {
+    return (
+      <Loading
+        shape="fusion-reactor"
+        color="#66AAFF"
+        style={{ display: 'block' }}
+        visible={this.state.isLoading}
+      >
+        <div
+          style={{ height: this.props.height, overflow: 'auto' }}
+          onScroll={this.handleScroll}
+        >
+          <ReactList
+            ref="list"
+            itemRenderer={this.renderItem}
+            length={this.state.total}
+            pageSize={this.state.pageSize}
+          />
+        </div>
+      </Loading>
+    );
+  }
 }
 
 const styles = {
-    row: {
-      backgroundColor: '#fff',
-      marginTop: '32px',
-      padding: '10px 20px',
-      boxShadow: '0 1px 2px rgba(0, 0, 0, 0.07)',
-    },
-    imageWrap: {
-      textAlign: 'center',
-    },
-    image: {
-      width: '40px',
-      height: '40px',
-      borderRadius: '40px',
-      marginBottom: '6px',
-    },
-    itemBody: {
-      padding: '10px 20px 0',
-    },
-    itemDescription: {
-      color: '#666',
-      marginTop: '20px',
-      maxWidth: '600px',
-    },
-    operationWrap: {
-    //   marginTop: '40px',
-      textAlign: 'right',
-      color: '#ff6',
-    },
-    itemFooter: {
-      textAlign: 'center',
-      color: '#666',
-      marginTop: '40px',
-    },
-    nextBtn: {
-      marginTop: '40px',
-    },
-    itemStatusSuccess: {
-      color: '#1be25c',
-    },
-    itemStatusFail: {
-      color: '#f33',
-      fontSize: '16px',
-    },
-    itemStatusText: {
-      marginLeft: '10px',
-    },
-    mobileContentCenter: {
-      textAlign: 'center',
-      padding: '20px 0 0 0',
-    },
-    removeContentWidth: {
-      maxWidth: 'none',
-    },
-  };
+  listItem: {
+    padding: 10,
+    // background: '#fff',
+    borderBottom: '1px solid #ddd',
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    verticalAlign: 'middle',
+  },
+  info: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginLeft: 20,
+  },
+  infoItem: {
+    marginBottom: '4px',
+  },
+
+  row: {
+    backgroundColor: '#fff',
+    padding: '10px 20px',
+    marginTop: '20px',
+    marginBottom: '10px',
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.07)',
+  },
+  imageWrap: {
+    textAlign: 'center',
+  },
+  image: {
+    width: '40px',
+    height: '40px',
+    borderRadius: '40px',
+    marginBottom: '6px',
+  },
+  itemBody: {
+    padding: '10px 20px 0',
+  },
+  itemDescription: {
+    color: '#666',
+    marginTop: '20px',
+    maxWidth: '600px',
+  },
+  operationWrap: {
+  //   marginTop: '40px',
+    textAlign: 'right',
+    color: '#ff6',
+  },
+  itemFooter: {
+    textAlign: 'center',
+    color: '#666',
+    marginTop: '40px',
+  },
+  nextBtn: {
+    marginTop: '40px',
+  },
+  itemStatusSuccess: {
+    color: '#1be25c',
+  },
+  itemStatusFail: {
+    color: '#f33',
+    fontSize: '16px',
+  },
+  itemStatusText: {
+    marginLeft: '10px',
+  },
+  mobileContentCenter: {
+    textAlign: 'center',
+    padding: '20px 0 0 0',
+  },
+  removeContentWidth: {
+    maxWidth: 'none',
+  },
+};

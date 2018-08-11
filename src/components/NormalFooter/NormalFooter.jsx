@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import IceContainer from '@icedesign/container';
-import { Grid } from '@icedesign/base';
-import Logo from '../Logo';
-
-const { Row, Col } = Grid;
 
 export default class NormalFooter extends Component {
   static displayName = 'NormalFooter';
@@ -21,47 +17,20 @@ export default class NormalFooter extends Component {
     return (
       <div className="normal-footer">
         <IceContainer>
-          <Row wrap style={styles.content}>
-            <Col l="4" xxs="24">
-              <div style={{ filter: 'grayscale(100%)', opacity: 0.3 }}>
-                <Logo isDark />
-              </div>
-            </Col>
-            <Col l="20" xxs="48">
-              <div style={{ ...styles.nav, ...styles.pullCenter }}>
-                <a href="./" style={styles.navLink}>
-                  Home
-                </a>
-                <span href="#" onClick={() => { window.open("http://rebey.cn", "_blank");}} style={styles.navLink}>
-                  Blog
-                </span>
-                <span href="#" onClick={() => { window.open("https://github.com/chenhongen/", "_blank");}} style={styles.navLink}>
-                  Github
-                </span>
-                <a href="#" style={styles.navLink}>
-                  About
-                </a>
-              </div>
-            </Col>
-            {/* <Col l="4" xxs="24">
-              <div style={styles.pullRight}>
-                <a href="#">
-                  <img
-                    src={require('./images/TB1JkgmjnnI8KJjy0FfXXcdoVXa-60-48.png')}
-                    alt=""
-                    style={{ ...styles.socialImg, marginRight: '16px' }}
-                  />
-                </a>
-                <a href="#">
-                  <img
-                    src={require('./images/TB1hEz2jf6H8KJjy0FjXXaXepXa-60-48.png')}
-                    alt=""
-                    style={styles.socialImg}
-                  />
-                </a>
-              </div>
-            </Col> */}
-          </Row>
+          <div style={{ ...styles.nav, ...styles.pullCenter }}>
+            <a href="./" style={styles.navLink}>
+              Home
+            </a>
+            <span href="#" onClick={() => { window.open("http://rebey.cn", "_blank");}} style={styles.navLink}>
+              Blog
+            </span>
+            <span href="#" onClick={() => { window.open("https://github.com/chenhongen/", "_blank");}} style={styles.navLink}>
+              Github
+            </span>
+            <a href="#" style={styles.navLink}>
+              About
+            </a>
+          </div>
           <div style={styles.line} />
           <div style={{ ...styles.copyright, ...styles.pullCenter }}>
             © Copyright 2018. All rights reserved.
@@ -73,12 +42,9 @@ export default class NormalFooter extends Component {
 }
 
 const styles = {
-  content: {
+  nav: {
     alignItems: 'center',
     padding: '10px 0',
-  },
-  logo: {
-    width: '86px',
   },
   pullCenter: {
     textAlign: 'center',
@@ -90,10 +56,6 @@ const styles = {
     marginRight: '20px',
     color: 'rgba(0, 0, 0, 0.7)',
     cursor: 'pointer',
-  },
-  socialImg: {
-    width: '22px',
-    height: '16px',
   },
   line: {
     margin: '16px 0',

@@ -11,15 +11,19 @@
     "@icedesign/menu": "^0.1.0",
     "@icedesign/skin": "^0.1.0",
     "@reach/router": "^1.1.1",
+    "axios": "^0.18.0",
     "enquire-js": "^0.2.1",
+    "mobx": "^5.0.3",
     "prop-types": "^15.5.8",
     "rc-queue-anim": "^1.5.0",
     "rc-scroll-anim": "^2.5.1",
     "react": "^16.4.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.4.1",
+    "react-list": "^0.8.10",
     "react-motion": "^0.5.2",
-    "react-router-dom": "^4.2.2"
+    "react-router-dom": "^4.2.2",
+    "react-virtualized": "^9.20.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
@@ -50,5 +54,11 @@
     "title": "Iceworks HomePage",
     "screenshot": "https://img.alicdn.com/tfs/TB1hRY5qqmWBuNjy1XaXXXCbXXa-2840-1596.png"
   },
-  "title": "week"
+  "title": "week",
+  "proxyConfig": {
+    "/**": {
+      "enable": true,
+      "target": "http://localhost:8081/week/"
+    }
+  }
 }

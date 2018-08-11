@@ -1,65 +1,29 @@
 /* eslint react/jsx-no-bind:0 */
-import { Menu, Button, Feedback } from '@icedesign/base';
 import React, { Component } from 'react';
 import Filter from './Filter';
 import MainPost from './MainPost';
 import Posts from './Posts';
-
-const SplitButton = Button.Split;
 
 export default class WeekIndex extends Component {
   static displayName = 'WeekIndex';
 
   constructor(props) {
     super(props);
-    const ua = navigator.userAgent;
-    let osType = 'darwin-x64-prod'; // mac for default
-    if (/Mac/.test(ua)) {
-      // this is macOS ha
-    } else if (/Windows/.test(ua)) {
-      osType = 'win-x64-prod';
-    }
     this.state = {
-      osType,
-      loading: false,
-      data: {
-        'darwin-x64-prod': {
-          name: 'iceworks',
-          description: 'ICE Desktop Application.',
-          install:
-            'http://iceworks.oss-cn-hangzhou.aliyuncs.com/mac/Iceworks-1.6.2.dmg',
-          version: '1.6.2',
-          releaseDate: '2018-04-23',
-        },
-        'win-x64-prod': {
-          name: 'iceworks',
-          description: 'ICE Desktop Application.',
-          install:
-            'http://iceworks.oss-cn-hangzhou.aliyuncs.com/win/Iceworks-setup-1.6.2.exe',
-          version: '1.6.2',
-          releaseDate: '2018-04-23',
-        },
-      },
+      tag: null,
     };
   }
 
-  changeSelectMenu = (select) => {
-    this.setState({ osType: select });
-  };
+  // header搜索框传值
+  // componentWillReceiveProps = (nextProps) => {
+  //   this.setState({ value: nextProps.value});
+  // }
 
-  download = () => {
-    const { data, loading, osType } = this.state;
-    if (loading) {
-      Feedback.toast.success('请稍等');
-    } else {
-      // 开始下载
-      location.href = data[osType].install;
-    }
-  };
+  onTagChange = (tag) => {
+    this.setState({ tag: tag});
+  }
 
   render() {
-    const { data, loading, osType } = this.state;
-    const ver = loading ? '0' : data[osType].version;
 
     return (
       <div style={styles.wrapperContainer}>
@@ -69,9 +33,9 @@ export default class WeekIndex extends Component {
             <div style={styles.bgImageMask} />
           </div> */}
           <div style={styles.wrapperBody}>
-            <Filter/>
+            <Filter onChange={this.onTagChange}/>
             <MainPost/>
-            <Posts/>
+            <Posts tag={this.state.tag} value={this.props.value} />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Motion, StaggeredMotion, spring} from 'react-motion';
-import { Input, Balloon, Icon } from '@icedesign/base';
+import { Search, Balloon, Icon } from '@icedesign/base';
 import Menu from '@icedesign/menu';
 import Logo from '../Logo';
 import './Header.scss';
@@ -32,6 +32,8 @@ const MENUS = [
 
 const data = [
   '全部',
+  '最新',
+  '收藏',
   'CSS',
   'DB',
   'Flutter',
@@ -57,6 +59,23 @@ export default class Header extends Component {
     super();
     this.state = {
       active: false,
+      dataSource: [
+        // {
+        //   label: "Recent",
+        //   value: "Recent",
+        //   disabled: true
+        // },
+        // {
+        //   label: "连衣裙",
+        //   value: "连衣裙",
+        //   disabled: false
+        // },
+        // {
+        //   label: "墨镜",
+        //   value: "墨镜",
+        //   disabled: false
+        // }
+      ],
     }
   }
 
@@ -109,6 +128,22 @@ export default class Header extends Component {
     });
   };
   
+  onChange(value) {
+    this.setState({
+      value
+    });
+    this.props.changeValue(value);
+  }
+
+  // 点击search按钮和在选中项上回车时触发
+  // 参数为obj：
+  // {
+  //    filter: [],
+  //    key: xx
+  // }
+  onSearch(obj) {
+    console.log(obj);
+  }
 
   render() {
     return (
@@ -120,9 +155,19 @@ export default class Header extends Component {
               <Menu className="header-navbar-menu" mode="horizontal">
                 {this.renderMenuItem()}
               </Menu>
-              <div className="header-search-input">
-                <Input placeholder="搜索..." />
-              </div>
+              <Search
+                inputWidth={250}
+                value={this.state.value}
+                onSearch={this.onSearch.bind(this)}
+                onChange={this.onChange.bind(this)}
+                dataSource={this.state.dataSource}
+                placeholder=" 兴趣..."
+                name="textName"
+                searchText=""
+                type="normal"
+                className="header-search-input"
+                value={this.state.value}
+              />
             </div>
           </div>
           <div className="header-right">
@@ -140,20 +185,22 @@ export default class Header extends Component {
 
               <StaggeredMotion
                 defaultStyles={[
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
-                  { y: -45, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
+                  { y: -35, o: 0 },
                 ]}
                 styles={prevInterpolatedStyles => prevInterpolatedStyles.map((_, i) => {
                   return i === 0
                     ? {
-                      y: spring(this.state.active ? 0 : -50, { stiffness: 330, damping: 20 }),
+                      y: spring(this.state.active ? 0 : -40, { stiffness: 330, damping: 20 }),
                       o: spring(this.state.active ? 1 : 0, { stiffness: 330, damping: 20 }),
                     } : {
                       y: spring(prevInterpolatedStyles[i - 1].y, { stiffness: 330, damping: 20 }),

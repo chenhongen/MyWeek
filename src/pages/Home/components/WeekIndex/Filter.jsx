@@ -1,22 +1,8 @@
 import React, { Component } from 'react';
 import './Filter.scss';
+import config from './../../../../const.js';
 
-const data = [
-  {
-    label: '专业',
-    value: [
-      '全部',
-      'CSS',
-      'DB',
-      'Flutter',
-      'Java',
-      'JS',
-      'Mini Programs',
-      'React',
-      'Spring',
-    ],
-  }
-];
+const data = config.TAGS;
 
 export default class Filter extends Component {
   static displayName = 'Filter';
@@ -29,44 +15,32 @@ export default class Filter extends Component {
   }
 
   handleClick = (value) => {
-    console.log(value);
     this.setState({
       activeIndex: value
     });
+    this.props.onChange(value);
   };
 
   render() {
     const { activeIndex } = this.state;
     return (
         <div style={styles.filterContent} className='filterContent'>
-          {data.map((item, index) => {
-            const lastItem = index === data.length - 1;
-            const lastItemStyle = lastItem ? { marginBottom: 0 } : null;
-            return (
-              <div
-                style={{ ...styles.filterItem, ...lastItemStyle }}
-                key={index}
-                className="filterItem"
-              >
-                <div style={styles.filterList} className="filterList">
-                  {item.value.map((text, idx) => {
-                    const activeStyle =
-                      activeIndex === idx ? styles.active : null;
-                    return (
-                      <span
-                        onClick={() => this.handleClick(idx)}
-                        style={{ ...activeStyle }}
-                        className="filterText"
-                        key={idx}
-                      >
-                        {text}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+          <div style={styles.filterList} className="filterList">
+            {data.map((text, idx) => {
+              const activeStyle =
+                activeIndex === idx ? styles.active : null;
+              return (
+                <span
+                  onClick={() => this.handleClick(idx)}
+                  style={{ ...activeStyle }}
+                  className="filterText"
+                  key={idx}
+                >
+                  {text}
+                </span>
+              );
+            })}
+          </div>
         </div>
     );
   }

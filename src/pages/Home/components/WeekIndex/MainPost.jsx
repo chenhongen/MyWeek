@@ -15,7 +15,7 @@ export default class MainPost extends Component {
             <div className="intro-banner-wrap" style={style.introBannerWrapStyles}>
                 <img
                 className="intro-banner-img"
-                src={require('./images/TB1R9Ius1uSBuNjy1XcXXcYjFXa-3840-900.jpg')}
+                src={require('./images/greatwall.jpg')}
                 style={style.introBannerImgStyles}
                 alt=""
                 />
@@ -26,7 +26,7 @@ export default class MainPost extends Component {
                 <div className="intro-banner-top">
                     <div style={style.introBannerUserStyles}>
                         <img
-                        src={require('./images/TB13xyECxGYBuNjy0FnXXX5lpXa-484-488.png')}
+                        src={require('./images/我不是码神.png')}
                         style={style.avatar}
                         alt="头像"
                         />
@@ -50,7 +50,7 @@ export default class MainPost extends Component {
                     className="intro-banner-subtitle"
                     style={style.introBannerSubtitleStyles}
                 >
-                    每周分享一些优秀的干货、总结、文章。这周在地铁上听到美团HR姐姐在电话中提道一句：“外卖蛋糕还很大”。不仅是外卖，美团正在遍地种花。本周分享几篇最近看到的关于美团的文章。(开发中，很多功能未完善...)
+                    最近整的东西比较杂，LDAP校验、CXF Webservice接口、selenium自动填单、基于JodConvert的office文档转pdf/react-pdf在线播放等。当然，这些都没来得及时间整理。累到不想说话，并向你丢了以下干货。噗嗤(Week开发中，功能未完善...)
                 </p>
                 </div>
             </div>
@@ -77,7 +77,7 @@ const style = {
     
     introBannerWrapStyles: {
       width: '100%',
-      height: '450px',
+      height: '300px',
       position: 'relative',
       overflow: 'hidden',
     },
@@ -86,7 +86,7 @@ const style = {
       top: '0',
       left: '50%',
       display: 'block',
-      width: '1920px',
+      width: '1190px',
       height: '100%',
       transform: 'translateX(-50%)',
       zIndex: '10',
@@ -113,7 +113,7 @@ const style = {
     },
     introBannerTextStyles: {
       position: 'absolute',
-      top: '112px',
+      top: '62px',
       zIndex: '15',
       width: '100%',
       boxSizing: 'border-box',
