@@ -7,7 +7,6 @@ const headerMenuConfig = [];
 const asideMenuConfig = [
   {
     name: 'Nav3',
-    path: '/page3',
     icon: 'home',
   },
 ];

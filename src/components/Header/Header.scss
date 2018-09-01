@@ -49,6 +49,10 @@
     // }
   }
 
+  .header-search-input-mini {
+    display: none;
+  }
+
   .header-navbar {
     display: flex;
     flex-direction: row;
@@ -101,16 +105,25 @@
       display: none;
     }
     .header-search-input {
-      // display: none;
+      display: none;
+    }
+    .header-search-input-mini {
+      display: flex;
     }
     .header-content {
       padding: 0 20px;
       height: 40px;
       .header-right {
-        display: block;
+        display: flex;
         top: 20px;
         right: 20px;
         position: absolute;
+        justify-content: space-between;
+
+        .header-right-btn {
+          margin-right: 8px;
+          height: 40px;
+        }
         .header-button {
           width: 80px;
           height: 40px;

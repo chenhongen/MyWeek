@@ -7,6 +7,7 @@ import ReactList from 'react-list';
 import axios from 'axios';
 import avatar from './images/TB1L6tBXQyWBuNjy0FpXXassXXa-80-80.png';
 import config from './../../../../const.js';
+import './Posts.scss';
 
 const data = config.TAGS;
 const { Row, Col } = Grid;
@@ -34,15 +35,17 @@ export default class Posts extends Component {
     this.enquireScreenRegister();
   }
 
+  // Header触发
   componentWillReceiveProps(nextProps) {
     var that = this;
-    axios.post(`/posts/list`, {
+    console.log(nextProps.value+"+");
+    axios.post(`./posts/list`, {
         "criteria": {
           "criterion": [
             {
               "in": true,
               "property": "tags",
-              "value": nextProps.tag,
+              "value": nextProps.tag||nextProps.mtag,
             }
           ],
           "orCriterion": [
@@ -51,7 +54,7 @@ export default class Posts extends Component {
                 {
                   "like": true,
                   "property": "description",
-                  "value": nextProps.value,
+                  "value": nextProps.value||"",
                 }
               ]
             } ,{
@@ -59,7 +62,7 @@ export default class Posts extends Component {
                 {
                   "like": true,
                   "property": "title",
-                  "value": nextProps.value,
+                  "value": nextProps.value||"",
                 }
               ]
             }
@@ -124,7 +127,7 @@ export default class Posts extends Component {
     // });
     var params = new URLSearchParams();
     // params.append('vinCode', value);
-    axios.post(`/posts/list`, {
+    axios.post(`./posts/list`, {
         "pageIndex": this.state.pageNo,
         "pageSize": this.state.pageSize
       })
@@ -164,10 +167,10 @@ export default class Posts extends Component {
       //     <div>This is the {index + 1} row</div>
       //   </div>
       // </div>
-      <div style={styles.row} key={index}>
+      <div className="post-row" key={index}>
         <Row wrap>
             <Col xxs="24" s="2">
-            <div style={styles.imageWrap}>
+            <div className="image-wrap" style={styles.imageWrap} >
                 <img
                 style={styles.image}
                 src={avatar}
@@ -206,6 +209,14 @@ export default class Posts extends Component {
             >
                 {datum.description}
             </div>
+            <div className="split-line" />
+            <div className="image-wrap-mini">
+                <img
+                src={avatar}
+                alt="username"
+                />
+                <span>{datum.userName}</span>
+            </div>
             </Col>
             <Col xxs="24" s="4">
                 <div style={styles.operationWrap} onClick={this.startToggle.bind(this)}>
@@ -234,7 +245,7 @@ export default class Posts extends Component {
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.props.value == null && this.fetchData();
   }
 
   render() {
@@ -249,12 +260,14 @@ export default class Posts extends Component {
           style={{ height: this.props.height, overflow: 'auto' }}
           onScroll={this.handleScroll}
         >
-          <ReactList
+          {this.state.total > 0 ? <ReactList
             ref="list"
             itemRenderer={this.renderItem}
             length={this.state.total}
             pageSize={this.state.pageSize}
-          />
+          /> : <div style={{ paddingTop: '80px', textAlign: 'center', color: '#888'}}>
+                 <p>这里空荡荡，等你来填满~</p>
+               </div>}
         </div>
       </Loading>
     );
@@ -279,14 +292,6 @@ const styles = {
   },
   infoItem: {
     marginBottom: '4px',
-  },
-
-  row: {
-    backgroundColor: '#fff',
-    padding: '10px 20px',
-    marginTop: '20px',
-    marginBottom: '10px',
-    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.07)',
   },
   imageWrap: {
     textAlign: 'center',

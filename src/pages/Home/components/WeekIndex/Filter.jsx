@@ -48,7 +48,6 @@ export default class Filter extends Component {
 
 const styles = {
   filterContent: {
-    padding: '75px 0 20px ',
     color: '#fff',
   },
   filterItem: {

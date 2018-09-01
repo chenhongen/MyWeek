@@ -1,8 +1,26 @@
 /* eslint react/jsx-no-bind:0 */
 import React, { Component } from 'react';
-import Filter from './Filter';
-import MainPost from './MainPost';
-import Posts from './Posts';
+import Loadable from 'react-loadable';
+import { Loading } from "@icedesign/base";
+import './WeekIndex.scss';
+// import Filter from './Filter';
+// import MainPost from './MainPost';
+// import Posts from './Posts';
+const Filter = Loadable({
+  loader: () => import(/* webpackChunkName: "Filter" */'./Filter'),
+  loading: Loading,
+  delay: 300,
+});
+const MainPost = Loadable({
+  loader: () => import(/* webpackChunkName: "MainPost" */'./MainPost'),
+  loading: Loading,
+  delay: 300
+});
+const Posts = Loadable({
+  loader: () => import(/* webpackChunkName: "Posts" */'./Posts'),
+  loading: Loading,
+  delay: 300
+});
 
 export default class WeekIndex extends Component {
   static displayName = 'WeekIndex';
@@ -27,15 +45,17 @@ export default class WeekIndex extends Component {
 
     return (
       <div style={styles.wrapperContainer}>
-        <div style={styles.bgImage2} />
+        {/* <div style={styles.bgImage2} /> */}
         <div style={styles.wrapper}>
           {/* <div style={styles.bgImage}>
             <div style={styles.bgImageMask} />
           </div> */}
-          <div style={styles.wrapperBody}>
+          <MainPost/>
+          <div className='wrapperBody'>
+            
             <Filter onChange={this.onTagChange}/>
-            <MainPost/>
-            <Posts tag={this.state.tag} value={this.props.value} />
+            
+            <Posts tag={this.state.tag} value={this.props.value} mtag={this.props.mtag} />
           </div>
         </div>
       </div>
@@ -67,13 +87,6 @@ const styles = {
     backgroundColor: '#f6f6f6',
     position: 'relative',
     width: '100%',
-  },
-  wrapperBody: {
-    maxWidth: 1190,
-    // height: 750,
-    position: 'relative',
-    margin: '0 auto',
-    zIndex: 2,
   },
   softwareIntro: {
     position: 'absolute',
@@ -120,13 +133,6 @@ const styles = {
     width: 80,
     lineHeight: '20px',
     textAlign: 'center',
-  },
-  bgImage: {
-    position: 'absolute',
-    width: '100%',
-    height: 750,
-    backgroundSize: 'cover',
-    backgroundImage: `url(${require('./images/TB1eoehpKOSBuNjy0FdXXbDnVXa-3798-1500.jpg')})`,
   },
   bgImageMask: {
     width: '100%',

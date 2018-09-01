@@ -1,4 +1,4 @@
-const proxyTarget = 'http://127.0.0.1:8081/week';
+const proxyTarget = 'http://127.0.0.1:80';
 
 module.exports = {
   devServer: {
@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   // 其他配置
-  output: {
-    publicPath: '/week/'
-  },
+  externals: {
+    'aframe': 'AFRAME'
+  }
 };

@@ -9,13 +9,40 @@
     align-items: center;
     justify-content: space-between;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 100%);
-
+}
+.intro-banner-text {
+    position: absolute;
+    top: 20px;
+    z-index: 15;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 40px;
+    color: #fff;
+    pointer-events: none;
+    .intro-banner-title {
+        font-weight: 400;
+        font-size: 50px;
+        line-height: 70px;
+    }
 }
 
 @media (max-width: 750px) {
     .intro-banner-wrap {
         // display: none;
-        
         margin-top: 80px;
+        .intro-banner-text {
+            top: 6px;
+            padding: 0 16px;
+            .intro-banner-title {
+                font-weight: 200;
+                font-size: 25px;
+                line-height: 35px;
+            }
+        }
+        .intro-banner-img {
+            height: 180px;
+
+        }
+        
     }
 }

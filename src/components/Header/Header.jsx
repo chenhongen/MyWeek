@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import {Motion, StaggeredMotion, spring} from 'react-motion';
-import { Search, Balloon, Icon } from '@icedesign/base';
+import { Button, Search, Balloon, Icon } from '@icedesign/base';
 import Menu from '@icedesign/menu';
+import FoundationSymbol from 'foundation-symbol';
 import Logo from '../Logo';
 import './Header.scss';
+import config from './../../const';
 
 const MENUS = [
   {
@@ -30,19 +33,7 @@ const MENUS = [
   // },
 ];
 
-const data = [
-  '全部',
-  '最新',
-  '收藏',
-  'CSS',
-  'DB',
-  'Flutter',
-  'Java',
-  'JS',
-  'Mini Programs',
-  'React',
-  'Spring',
-];
+const data = [...config.TAGS, '热门', '收藏'];
 
 /**
  * <ButtonGroup />
@@ -52,9 +43,10 @@ const ButtonGroup = (props) => <div className="button-group" style={props.style}
 /**
  * <Button />
  */
-const Button = (props) => <button className='button' style={props.style} onClick={props.onClick}>{props.children}</button>;
+// const Button = (props) => <button className='button' style={props.style} onClick={props.onClick}>{props.children}</button>;
 
-export default class Header extends Component {
+@withRouter
+class Header extends Component {
   constructor() {
     super();
     this.state = {
@@ -135,6 +127,17 @@ export default class Header extends Component {
     this.props.changeValue(value);
   }
 
+  // mobile - tag切换
+  onTagChange = (e) => {
+    this.props.changeTagValue(e.target.getAttribute("data-index"));
+    this.filterClick();
+  }
+
+  // mobile - search
+  onMiniSearch = () => {
+    this.props.history.push("/search");
+  }
+
   // 点击search按钮和在选中项上回车时触发
   // 参数为obj：
   // {
@@ -152,9 +155,6 @@ export default class Header extends Component {
           <div className="header-left">
             <Logo />
             <div className="header-navbar">
-              <Menu className="header-navbar-menu" mode="horizontal">
-                {this.renderMenuItem()}
-              </Menu>
               <Search
                 inputWidth={250}
                 value={this.state.value}
@@ -168,9 +168,17 @@ export default class Header extends Component {
                 className="header-search-input"
                 value={this.state.value}
               />
+              
+              <Menu className="header-navbar-menu" mode="horizontal">
+                {this.renderMenuItem()}
+              </Menu>
             </div>
           </div>
           <div className="header-right">
+            <Button size="large" className="header-right-btn" onClick={this.onMiniSearch}>
+                  <FoundationSymbol size="large" type='search' />
+            </Button>
+            
             <ButtonGroup>
               <Motion
                 defaultStyle={{ s: 0.675 }}
@@ -212,13 +220,16 @@ export default class Header extends Component {
                   <ButtonGroup>
                   {interpolatingStyles.map((style, i) =>
                       <Button
+                        className='button'
                         key={i}
+                        data-index={i}
                         style={{
                           position: 'relative',
                           top: style.y,
                           opacity: style.o,
                           pointerEvents: this.state.active ? 'auto' : 'none',
                         }}
+                        onClick={this.onTagChange}
                       >
                         {data[i]}
                       </Button>
@@ -233,3 +244,5 @@ export default class Header extends Component {
     );
   }
 }
+
+export default Header;

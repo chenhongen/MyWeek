@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Icon } from '@icedesign/base';
 import './MainPost.scss';
 
+// import 'aframe-particle-system-component';
+import VRScene from './VRBanner';
+
 export default class MainPost extends Component {
     static displayName = 'MainPost';
 
@@ -13,7 +16,7 @@ export default class MainPost extends Component {
     render() {
         return (
             <div className="intro-banner-wrap" style={style.introBannerWrapStyles}>
-                <img
+                {/* <img
                 className="intro-banner-img"
                 src={require('./images/greatwall.jpg')}
                 style={style.introBannerImgStyles}
@@ -23,6 +26,11 @@ export default class MainPost extends Component {
                 className="intro-banner-img-mask"
                 style={style.introBannerImgMaskStyles}
                 />
+                 */}
+                <VRScene />
+                {/* <div className="intro-banner-img" style={style.introBannerImgStyles}>
+                    <VRScene />
+                </div> */}
                 <div className="intro-banner-top">
                     <div style={style.introBannerUserStyles}>
                         <img
@@ -35,23 +43,23 @@ export default class MainPost extends Component {
                         <p style={style.deptName}>CHE Studio</p>
                         </div>
                     </div>
-                    <div style={style.introBannerStartStyles}>
+                    {/* <div style={style.introBannerStartStyles}>
                         <Icon type="favorite" data-id="" />
-                    </div>
+                    </div> */}
                 </div>
-                <div className="intro-banner-text" style={style.introBannerTextStyles}>
-                <h2
-                    className="intro-banner-title"
-                    style={style.introBannerTitleStyles}
-                >
-                    一周事儿，都在这儿
-                </h2>
-                <p
-                    className="intro-banner-subtitle"
-                    style={style.introBannerSubtitleStyles}
-                >
-                    最近整的东西比较杂，LDAP校验、CXF Webservice接口、selenium自动填单、基于JodConvert的office文档转pdf/react-pdf在线播放等。当然，这些都没来得及时间整理。累到不想说话，并向你丢了以下干货。噗嗤(Week开发中，功能未完善...)
-                </p>
+                <div className="intro-banner-text">
+                    <h2 className="intro-banner-title">
+                        周 · 讯
+                    </h2>
+                    <p
+                        className="intro-banner-subtitle"
+                        style={style.introBannerSubtitleStyles}
+                    >
+                        延禧攻略完结撒花。VR背景根据故宫博物院素材制作。<br/>
+                        这周基本都在客户现场调试Webservice接口，来回四个小时。。<br/>
+                        抽空刷了《ZooKeeper分布式专题与Dubbo微服务入门》，确实很入门，不值100多，还好没花钱。。<br/>
+                        (Week开发中，功能未完善...)
+                    </p>
                 </div>
             </div>
         );
@@ -80,6 +88,7 @@ const style = {
       height: '300px',
       position: 'relative',
       overflow: 'hidden',
+      marginTop: '75px',
     },
     introBannerImgStyles: {
       position: 'absolute',
@@ -87,7 +96,8 @@ const style = {
       left: '50%',
       display: 'block',
       width: '1190px',
-      height: '100%',
+    //   height: '100%',
+      height: '300px',
       transform: 'translateX(-50%)',
       zIndex: '10',
     },
@@ -110,21 +120,6 @@ const style = {
     introBannerStartStyles: {
         color: '#fff',
         paddingRight: '20px',
-    },
-    introBannerTextStyles: {
-      position: 'absolute',
-      top: '62px',
-      zIndex: '15',
-      width: '100%',
-      boxSizing: 'border-box',
-      paddingLeft: '40px',
-      color: '#fff',
-      pointerEvents: 'none',
-    },
-    introBannerTitleStyles: {
-      fontWeight: '400',
-      fontSize: '50px',
-      lineHeight: '70px',
     },
     introBannerSubtitleStyles: {
       marginTop: '8px',

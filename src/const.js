@@ -1,6 +1,6 @@
 /// IP配置
 const config = {
-    SERVER_URL: '//127.0.0.1:8081/week',
+    SERVER_URL: '//127.0.0.1:80',
     ELECTRON_URL: '.',
     TAGS: [
         '全部',
@@ -9,7 +9,7 @@ const config = {
         'Flutter',
         'Java',
         'JS',
-        'Mini Programs',
+        '小程序',
         'React',
         'Spring'
     ],
