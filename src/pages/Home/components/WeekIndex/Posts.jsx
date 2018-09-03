@@ -5,6 +5,8 @@ import { enquireScreen } from 'enquire-js';
 import { Loading } from '@icedesign/base';
 import ReactList from 'react-list';
 import axios from 'axios';
+import Swipeout from 'rc-swipeout';
+import 'rc-swipeout/assets/index.css';
 import avatar from './images/TB1L6tBXQyWBuNjy0FpXXassXXa-80-80.png';
 import config from './../../../../const.js';
 import './Posts.scss';
@@ -28,17 +30,14 @@ export default class Posts extends Component {
       pageSize: 4,
       pageNo: 1,
       isMobile: false,
+      height: window.innerHeight+'px',
     };
-  }
-
-  componentDidMount() {
-    this.enquireScreenRegister();
   }
 
   // Header触发
   componentWillReceiveProps(nextProps) {
     var that = this;
-    console.log(nextProps.value+"+");
+    // console.log(nextProps.value+"+");
     axios.post(`./posts/list`, {
         "criteria": {
           "criterion": [
@@ -107,24 +106,14 @@ export default class Posts extends Component {
   // };
 
   fetchData = () => {
+    // 没有更多了
     if(this.state.total > 0 && this.state.total === this.state.list.length)
       return;
+    
     this.setState({
       isLoading: true,
     });
     var that = this;
-    // this.fetchDataMethod().then((res) => {
-    //   if (res.status === 'SUCCESS') {
-    //     this.setState((prevState) => {
-    //       return {
-    //         list: [...prevState.list, ...res.data.list],
-    //         total: res.data.total,
-    //         pageNo: prevState.pageNo + 1,
-    //         isLoading: false,
-    //       };
-    //     });
-    //   }
-    // });
     var params = new URLSearchParams();
     // params.append('vinCode', value);
     axios.post(`./posts/list`, {
@@ -149,7 +138,7 @@ export default class Posts extends Component {
   };
 
   startToggle = (e) => {
-    console.log(e.target.getAttribute("data-id"));
+    // console.log(e.target.getAttribute("data-id"));
   }
 
   linkPost = (e) => {
@@ -168,6 +157,22 @@ export default class Posts extends Component {
       //   </div>
       // </div>
       <div className="post-row" key={index}>
+        <Swipeout
+          style={{ backgroundColor: 'white' }}
+          autoClose
+          right={[
+            { text: '收藏',
+              onPress: () => console.log('more'),
+              style: { backgroundColor: '#108EE9', color: '#fff' },
+            },
+            { text: '不感 兴趣',
+              onPress: () => console.log('delete'),
+              style: { backgroundColor: 'red', color: '#fff', width: '52px', whiteSpace: 'pre-wrap'},
+            },
+          ]}
+          onOpen={() => console.log('open')}
+          onClose={() => console.log('close')}
+        >
         <Row wrap>
             <Col xxs="24" s="2">
             <div className="image-wrap" style={styles.imageWrap} >
@@ -227,6 +232,7 @@ export default class Posts extends Component {
                 </div>
             </Col>
         </Row>
+        </Swipeout>
       </div>
     ) : (
       ''
@@ -246,9 +252,13 @@ export default class Posts extends Component {
 
   componentDidMount() {
     this.props.value == null && this.fetchData();
+    
+    this.enquireScreenRegister();
   }
 
   render() {
+    const height = this.state.isMobile? this.state.height: this.props.height; // 移动端高度增长至屏幕高度
+
     return (
       <Loading
         shape="fusion-reactor"
@@ -257,7 +267,7 @@ export default class Posts extends Component {
         visible={this.state.isLoading}
       >
         <div
-          style={{ height: this.props.height, overflow: 'auto' }}
+          style={{ height: height, overflow: 'auto' }}
           onScroll={this.handleScroll}
         >
           {this.state.total > 0 ? <ReactList
@@ -268,6 +278,10 @@ export default class Posts extends Component {
           /> : <div style={{ paddingTop: '80px', textAlign: 'center', color: '#888'}}>
                  <p>这里空荡荡，等你来填满~</p>
                </div>}
+
+          <div style={{ paddingTop: '80px', textAlign: 'center', color: '#888'}}>
+            <p>嗯~下周会发生什么呢？</p>
+          </div>
         </div>
       </Loading>
     );
@@ -334,8 +348,8 @@ const styles = {
     marginLeft: '10px',
   },
   mobileContentCenter: {
-    textAlign: 'center',
-    padding: '20px 0 0 0',
+    // textAlign: 'center',
+    padding: '18px 1rem 0',
   },
   removeContentWidth: {
     maxWidth: 'none',

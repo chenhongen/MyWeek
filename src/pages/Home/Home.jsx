@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // import WeekIndex from './components/WeekIndex';
 import Loadable from 'react-loadable';
 import { Loading } from "@icedesign/base";
+import { enquireScreen } from 'enquire-js';
 
 const NormalFooter = Loadable({
   loader: () => import(/* webpackChunkName: "NormalFooter" */'../../components/NormalFooter'),
@@ -28,7 +29,8 @@ export default class Home extends Component {
     super(props);
     this.state = {
       value: null,
-      tag: null
+      tag: null,
+      isMobile: false,
     };
   }
 
@@ -44,13 +46,30 @@ export default class Home extends Component {
     });
   }
 
+  enquireScreenRegister = () => {
+
+    const mediaCondition = 'only screen and (max-width: 720px)';
+
+    enquireScreen((mobile) => {
+      this.setState({
+        isMobile: mobile,
+      });
+    }, mediaCondition);
+  };
+
+  componentDidMount() {
+    this.enquireScreenRegister();
+  }
+
   render() {
+    const { isMobile } = this.state;
+
     return (
       <div className="home-page" style={styles.homepage}>
         <Header value={this.state.value} changeValue={this.changeValue} changeTagValue={this.changeTagValue}/>
         <WeekIndex value={this.state.value} mtag={this.state.tag} />
-        <div></div>
-        <NormalFooter />
+
+        {isMobile?'':<NormalFooter />}
       </div>
     );
   }
@@ -59,6 +78,6 @@ export default class Home extends Component {
 const styles = {
   homepage: {
     // background: '#fff',
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
 };

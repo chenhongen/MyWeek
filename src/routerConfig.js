@@ -8,23 +8,24 @@ import NotFound from './pages/NotFound';
 // import SearchBar from './pages/SearchBar';
 
 import Loadable from 'react-loadable';
-import { Loading } from "@icedesign/base";
+import { Loading } from '@icedesign/base';
 
 const BlankLayout = Loadable({
-  loader: () => import(/* webpackChunkName: "BlankLayout" */'./layouts/BlankLayout'),
+  loader: () =>
+    import(/* webpackChunkName: "BlankLayout" */ './layouts/BlankLayout'),
   loading: Loading,
   delay: 300,
-})
+});
 const Home = Loadable({
-  loader: () => import(/* webpackChunkName: "Home" */'./pages/Home'),
+  loader: () => import(/* webpackChunkName: "Home" */ './pages/Home'),
   loading: Loading,
-  delay: 300
-})
+  delay: 300,
+});
 const SearchBar = Loadable({
-  loader: () => import(/* webpackChunkName: "SearchBar" */'./pages/SearchBar'),
+  loader: () => import(/* webpackChunkName: "SearchBar" */ './pages/SearchBar'),
   loading: Loading,
-  delay: 300
-})
+  delay: 300,
+});
 
 const routerConfig = [
   {

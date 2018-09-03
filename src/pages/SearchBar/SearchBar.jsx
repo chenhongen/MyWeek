@@ -48,7 +48,7 @@ export default class SearchBar extends Component {
                     <FoundationSymbol size="large" type='transfer-left' onClick={this.backIndex} />
 
                     <Search
-                        inputWidth={250}
+                        inputWidth={220}
                         value={this.state.value}
                         onSearch={this.onSearch.bind(this)}
                         onChange={this.onChange}
